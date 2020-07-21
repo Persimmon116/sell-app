@@ -1,0 +1,65 @@
+{
+  "id": "1954412",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "10419597",
+      "name": "收 藏",
+      "font_class": "shoucang",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "6845487",
+      "name": "收 藏",
+      "font_class": "shoucang-copy",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "14104481",
+      "name": "踩",
+      "font_class": "cai",
+      "unicode": "e83a",
+      "unicode_decimal": 59450
+    },
+    {
+      "icon_id": "12401968",
+      "name": "点赞",
+      "font_class": "dianzan-copy",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "4836992",
+      "name": "关  闭",
+      "font_class": "guanbi",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "4957398",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
+      "icon_id": "6076387",
+      "name": "向右箭头",
+      "font_class": "right",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "8799283",
+      "name": "减",
+      "font_class": "jian",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    }
+  ]
+}
