@@ -48,19 +48,19 @@
           size="small"
           v-if="ratings.length"
           :class="{active: selectType===2}"
-          @click="setSelectType(2)"
+          @click="selectType=2"
         >全部 {{rating.length}}</van-button>
         <van-button
           color="#00a0dc"
           size="small"
-          :class="{active: selectType===0}"
-          @click="setSelectType(0)"
+          :class="{active: selectType===1}"
+          @click="selectType=1"
         >满意 {{satisfied}}</van-button>
         <van-button
           color="#00a0dc"
           size="small"
-          :class="{active: selectType===1}"
-          @click="setSelectType(1)"
+          :class="{active: selectType===0}"
+          @click="selectType=0"
         >不满意 {{dissatisfaction}}</van-button>
       </div>
       <p>
@@ -68,7 +68,7 @@
       </p>
     </div>
     <div class="bottom">
-      <div class="item" v-for="(v,i) in ratings" :key="i">
+      <div class="item" v-for="(v,i) in ratingsList" :key="i">
         <img class="avatar" :src="v.avatar" alt />
         <div class="info">
           <p class="title-date">
@@ -130,11 +130,6 @@ export default {
     async getRatings() {
       // 发送请求
       let { data } = await getRatings();
-
-      // this.ratings.rateType = data.filter(v => {
-      //   v.rateType === 1;
-      // });
-
       // 处理时间
       data.forEach(v => {
         v.rateTime = moment(v.rateTime).format("YYYY-MM-DD HH:mm:ss");
@@ -143,7 +138,6 @@ export default {
       this.ratings = data;
       // 数据备份
       this.rating = data;
-
       // 过滤满意和不满意
       this.rating.forEach(v => {
         // 如果v.rateType == 0 表示满意
@@ -158,29 +152,6 @@ export default {
     // 评论激活样式 过滤评论
     setSelectType(selectType) {
       this.selectType = selectType;
-      // 重新赋值
-      this.ratings = this.rating;
-      // 定义数组保存
-      let arr = [];
-      // 遍历数据
-      this.ratings.forEach(v => {
-        // 如果v.rateType == selectType
-        if (v.rateType == selectType) {
-          // 往数组添加数据
-          arr.push(v);
-        }
-        // 调用过滤文本
-        this.isContent();
-        // 赋值渲染
-        this.ratings = arr;
-      });
-      // 如果selectType === 2
-      if (selectType === 2) {
-        // 数据等于备份数据
-        this.ratings = this.rating;
-        // 调用过滤文本
-        this.isContent();
-      }
     },
     // 过滤空文本
     isContent() {
@@ -209,6 +180,17 @@ export default {
   created() {
     // 调用获取数据函数
     this.getRatings();
+  },
+  computed: {
+    ratingsList() {
+      if (this.selectType === 2) {
+        return this.ratings;
+      } else if (this.selectType === 1) {
+        return this.ratings.filter(v => v.score >= 4);
+      } else if (this.selectType === 0) {
+        return this.ratings.filter(v => v.score < 4);
+      }
+    }
   }
 };
 </script>

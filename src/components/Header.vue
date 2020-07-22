@@ -74,7 +74,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.5);
     img {
       margin-right: 20px;
-      flex: 0 0 50px;
+      flex: 0 0 75px;
       border-radius: 5px;
     }
     .info {

@@ -29,9 +29,13 @@
                 </div>
                 <!-- 订单加减 -->
                 <div class="count1">
-                  <i @click.stop="food.count--" class="iconfont icon-jian"></i>
-                  <span>{{food.count}}</span>
-                  <i @click.stop="food.count++" class="iconfont icon-jia"></i>
+                  <i
+                    v-if="food.count>0"
+                    @click.stop="changeNum(food.name,-1)"
+                    class="iconfont icon-jian"
+                  ></i>
+                  <span v-if="food.count>0">{{food.count}}</span>
+                  <i @click.stop="changeNum(food.name,1)" class="iconfont icon-jia"></i>
                 </div>
               </li>
             </ul>
@@ -49,6 +53,9 @@
 <script>
 import BScroll from "better-scroll";
 import FoodInfo from "@/components/FoodInfo.vue";
+
+// 引入辅助函数
+import { mapState } from "vuex";
 export default {
   components: {
     FoodInfo
@@ -65,7 +72,6 @@ export default {
       FoodInfoVsible: false
     };
   },
-  props: ["goods"],
   // 方法
   methods: {
     // 激活样式以及联动右边
@@ -79,7 +85,6 @@ export default {
     foodInfo(food) {
       // 赋值
       this.food = food;
-      console.log(food);
       this.FoodInfoVsible = true;
     },
     // 计算数组
@@ -96,6 +101,11 @@ export default {
         // 重置高度
         num = num + h;
       }
+    },
+
+    // 商品增加减少
+    changeNum(name, num) {
+      this.$store.commit("CHAGE_NUM", { name, num });
     }
   },
   // 挂载后
@@ -134,6 +144,9 @@ export default {
     this.$nextTick(function() {
       this.calcArr();
     });
+  },
+  computed: {
+    ...mapState(["goods"])
   }
 };
 </script>
@@ -193,20 +206,18 @@ export default {
           display: flex;
           line-height: 1.5;
           .count1 {
-            width: 60px;
-            display: flex;
-            justify-content: space-between;
             position: absolute;
             right: 10px;
             bottom: 10px;
             span {
               display: inline-block;
-              flex: 1;
               text-align: center;
+              margin: 0 5px;
               line-height: 24px;
             }
             i {
               color: #009fdd;
+              font-size: 18px;
             }
           }
           img {

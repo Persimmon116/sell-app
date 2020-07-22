@@ -5,9 +5,9 @@
     <!-- 导航 -->
     <Nav />
     <!-- 主体 -->
-    <Main :goods="goods" :shop="shop" />
+    <Main :shop="shop" />
     <!-- 购物车 -->
-    <ShopCar />
+    <ShopCar :shop="shop" />
   </div>
 </template>
 
@@ -26,7 +26,6 @@ export default {
   },
   data() {
     return {
-      goods: [],
       shop: {}
     };
   },
@@ -36,14 +35,12 @@ export default {
     // 给每一个食品 都添加一个数量字段
     for (let v of goodsList) {
       for (let food of v.foods) {
-        food.count = 1;
+        food.count = 0;
       }
     }
-    // 赋值渲染
-    this.goods = goodsList;
+    this.$store.commit("SET_GOODS", goodsList);
     // console.log(this.goods);
     let { data } = await getShop();
-    // console.log(data);
     this.shop = data;
   }
 };

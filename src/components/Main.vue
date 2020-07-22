@@ -1,12 +1,12 @@
 <template>
   <div class="main">
-    <router-view :goods="goods" :shop="shop"></router-view>
+    <router-view :shop="shop"></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["goods", "shop"]
+  props: ["shop"]
 };
 </script>
 
