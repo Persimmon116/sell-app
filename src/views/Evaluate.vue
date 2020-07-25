@@ -122,7 +122,7 @@ export default {
       // 满意
       satisfied: 0,
       // 不满意
-      dissatisfaction: 0
+      dissatisfaction: 0,
     };
   },
   methods: {
@@ -131,7 +131,7 @@ export default {
       // 发送请求
       let { data } = await getRatings();
       // 处理时间
-      data.forEach(v => {
+      data.forEach((v) => {
         v.rateTime = moment(v.rateTime).format("YYYY-MM-DD HH:mm:ss");
       });
       // 赋值渲染
@@ -139,7 +139,7 @@ export default {
       // 数据备份
       this.rating = data;
       // 过滤满意和不满意
-      this.rating.forEach(v => {
+      this.rating.forEach((v) => {
         // 如果v.rateType == 0 表示满意
         if (v.rateType == 0) {
           this.satisfied++;
@@ -160,7 +160,7 @@ export default {
         // 定义数组保存数据
         let arr = [];
         // 遍历数据
-        this.ratings.forEach(v => {
+        this.ratings.forEach((v) => {
           // 如果评论内容不为空
           if (v.text !== "") {
             // 往数组添加数据
@@ -174,7 +174,7 @@ export default {
         // 数据等于备份数据
         this.ratings = this.rating;
       }
-    }
+    },
   },
   // 加载后
   created() {
@@ -186,12 +186,12 @@ export default {
       if (this.selectType === 2) {
         return this.ratings;
       } else if (this.selectType === 1) {
-        return this.ratings.filter(v => v.score >= 4);
+        return this.ratings.filter((v) => v.score >= 4);
       } else if (this.selectType === 0) {
-        return this.ratings.filter(v => v.score < 4);
+        return this.ratings.filter((v) => v.score < 4);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -22,9 +22,6 @@
       <span class="notice">公告</span>
       <!-- 文字较短时，通过设置 scrollable 属性开启滚动播放 -->
       <van-notice-bar class="content" scrollable :text="shop.bulletin" />
-
-      <!-- 文字较长时，通过禁用 scrollable 属性关闭滚动播放 -->
-      <!-- <span class="content">{{shop.bulletin}}</span> -->
       <i class="iconfont icon-right"></i>
     </div>
     <transition name="fade">
@@ -42,14 +39,15 @@ import MaskLayer from "./MaskLayer.vue";
 export default {
   props: ["shop"],
   components: {
-    MaskLayer
+    MaskLayer,
   },
   data() {
     return {
       //遮罩层显示隐藏
-      visible: false
+      visible: false,
+      bgImg: "",
     };
-  }
+  },
 };
 </script>
 <style >

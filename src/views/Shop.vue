@@ -85,7 +85,6 @@
       <p>品类:汉堡薯条, 炸鸡炸串</p>
       <p>地址:四川省成都高新区府城大道西段399号6栋1层</p>
       <p>营业时间:8:30-21:00</p>
-      <p>大法师登陆接口阿斯蒂芬了</p>
     </div>
 
     <!-- 模态框 -->
@@ -107,7 +106,7 @@ export default {
       // 模态框显示隐藏
       visibel: false,
       // 图片地址
-      imgUrl: ""
+      imgUrl: "",
     };
   },
   methods: {
@@ -121,15 +120,15 @@ export default {
       this.visibel = !this.visibel;
       // 赋值渲染
       this.imgUrl = img;
-    }
+    },
   },
   mounted() {
     new BScroll("#img", {
       click: true, // 允许点击
       probeType: 3,
-      scrollX: true
+      scrollX: true,
     });
-  }
+  },
 };
 </script>
 

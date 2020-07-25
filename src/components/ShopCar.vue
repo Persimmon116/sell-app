@@ -1,7 +1,7 @@
 <template>
   <div class="shop-car">
     <div class="shop">
-      <div class="left" @click="vsible =!vsible">
+      <div class="left" @click="isVsvibel">
         <span :class="{active:sum!==0}" class="car iconfont icon-gouwuche">
           <span class="num" v-if="sum !==0">{{sum}}</span>
         </span>
@@ -21,7 +21,7 @@
         v-else
       >差{{(shop.minPrice-totalPrice).toFixed(2)}}起送</p>
     </div>
-
+    <!-- 模态框 -->
     <van-action-sheet v-model="vsible">
       <div class="content" id="content">
         <div class="title">
@@ -37,11 +37,11 @@
             <div class="count">
               <i
                 v-if="food.count>0"
-                @click.stop="changeNum(food.name,-1)"
+                @click.stop="changeNum(food.name,-1,food.category)"
                 class="iconfont icon-jian"
               ></i>
               <span v-if="food.count>0">{{food.count}}</span>
-              <i @click.stop="changeNum(food.name,1)" class="iconfont icon-jia"></i>
+              <i @click.stop="changeNum(food.name,1,food.category)" class="iconfont icon-jia"></i>
             </div>
           </li>
         </ul>
@@ -58,14 +58,29 @@ Vue.use(ActionSheet);
 export default {
   data() {
     return {
-      vsible: false
+      vsible: false,
     };
   },
-  props: ["shop"],
+  props: ["shop", "goodsList"],
+  mounted() {},
   methods: {
+    // 显示隐藏购物车列表
+    isVsvibel() {
+      // 如果总价格小于1
+      if (this.totalPrice == 0) {
+        // 隐藏购物车列表
+        this.vsible = false;
+        return;
+      }
+      this.vsible = !this.vsible;
+    },
     // 清空购物车
     clear() {
-      this.shopList.forEach(v => {
+      this.goodsList.forEach((v) => {
+        v.num = 0;
+      });
+
+      this.shopList.forEach((v) => {
         // 将商品数量变为0
         v.count = 0;
       });
@@ -79,17 +94,12 @@ export default {
       this.vsible = false;
     },
     // 商品增加减少
-    changeNum(name, num) {
-      this.$store.commit("CHAGE_NUM", { name, num });
-      let a = 0;
-      for (let v of this.shopList) {
-        a += v.price * v.count;
-      }
-      // console.log(a);
+    changeNum(name, num, category) {
+      this.$store.commit("CHAGE_NUM", { name, num, category });
       if (this.sum < 1) {
         this.vsible = false;
       }
-    }
+    },
   },
   computed: {
     // 商品列表
@@ -102,10 +112,13 @@ export default {
     },
     // 总价
     totalPrice() {
-      return this.$store.getters.totalPrice;
-    }
+      let total = 0;
+      for (let v of this.shopList) {
+        total += v.count * v.price;
+      }
+      return total.toFixed(2);
+    },
   },
-  mounted() {}
 };
 </script>
 <style lang="less" scoped>

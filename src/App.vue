@@ -7,7 +7,7 @@
     <!-- 主体 -->
     <Main :shop="shop" />
     <!-- 购物车 -->
-    <ShopCar :shop="shop" />
+    <ShopCar :shop="shop" :goodsList="goodsList" />
   </div>
 </template>
 
@@ -22,27 +22,30 @@ export default {
     Header,
     Nav,
     Main,
-    ShopCar
+    ShopCar,
   },
   data() {
     return {
-      shop: {}
+      shop: {},
+      goodsList: [],
     };
   },
   async created() {
     let { goodsList } = await getGoods();
-
     // 给每一个食品 都添加一个数量字段
     for (let v of goodsList) {
+      v.num = 0;
       for (let food of v.foods) {
         food.count = 0;
       }
     }
+    this.goodsList = goodsList;
+
     this.$store.commit("SET_GOODS", goodsList);
     // console.log(this.goods);
     let { data } = await getShop();
     this.shop = data;
-  }
+  },
 };
 </script>
 

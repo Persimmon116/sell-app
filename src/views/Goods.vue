@@ -8,7 +8,10 @@
           :class="{active:curActive===item.name}"
           v-for="item in goods"
           :key="item.name"
-        >{{item.name}}</li>
+        >
+          {{item.name}}
+          <span class="num" v-if="item.num>0">{{item.num}}</span>
+        </li>
       </ul>
     </div>
     <!-- 右侧内容 -->
@@ -31,11 +34,11 @@
                 <div class="count1">
                   <i
                     v-if="food.count>0"
-                    @click.stop="changeNum(food.name,-1)"
+                    @click.stop="changeNum(food.name,-1,food.category)"
                     class="iconfont icon-jian"
                   ></i>
                   <span v-if="food.count>0">{{food.count}}</span>
-                  <i @click.stop="changeNum(food.name,1)" class="iconfont icon-jia"></i>
+                  <i @click.stop="changeNum(food.name,1,food.category)" class="iconfont icon-jia"></i>
                 </div>
               </li>
             </ul>
@@ -58,7 +61,7 @@ import FoodInfo from "@/components/FoodInfo.vue";
 import { mapState } from "vuex";
 export default {
   components: {
-    FoodInfo
+    FoodInfo,
   },
   data() {
     return {
@@ -69,7 +72,7 @@ export default {
       // 食品
       food: {},
       // 食品详情显示隐藏
-      FoodInfoVsible: false
+      FoodInfoVsible: false,
     };
   },
   // 方法
@@ -104,25 +107,25 @@ export default {
     },
 
     // 商品增加减少
-    changeNum(name, num) {
-      this.$store.commit("CHAGE_NUM", { name, num });
-    }
+    changeNum(name, num, category) {
+      this.$store.commit("CHAGE_NUM", { name, num, category });
+    },
   },
   // 挂载后
   mounted() {
     // 左侧滚动
     new BScroll("#leftNav", {
       click: true, // 允许点击
-      probeType: 3
+      probeType: 3,
     });
     // 右侧滚动
     this.righScroll = new BScroll("#foodList", {
       click: true,
-      probeType: 3 //允许派发事件
+      probeType: 3, //允许派发事件
     });
 
     // 绑定滚动事件
-    this.righScroll.on("scroll", pos => {
+    this.righScroll.on("scroll", (pos) => {
       // console.log(pos);
       // 获取去移动高度
       let y = Math.abs(pos.y);
@@ -141,13 +144,13 @@ export default {
     this.calcArr();
   },
   created() {
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       this.calcArr();
     });
   },
   computed: {
-    ...mapState(["goods"])
-  }
+    ...mapState(["goods"]),
+  },
 };
 </script>
 
@@ -174,6 +177,21 @@ export default {
         box-sizing: border-box;
         height: 65px;
         border-bottom: 1px solid #fff;
+        position: relative;
+        .num {
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: inline-block;
+          height: 20px;
+          width: 20px;
+          font-size: 12px;
+          color: #fff;
+          border-radius: 50%;
+          background-color: red;
+          text-align: center;
+          line-height: 20px;
+        }
         &.active {
           background-color: #fff;
           border-bottom: 1px solid #f5f6f7;
